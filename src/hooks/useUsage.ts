@@ -10,7 +10,10 @@ export function useUsage() {
 
   useEffect(() => {
     async function fetchUsage() {
-      if (!user) return
+      if (!user) {
+        setLoading(false)
+        return
+      }
       const { data } = await supabase.rpc('conversions_this_month', { uid: user.id })
       setUsed(data ?? 0)
       setLoading(false)

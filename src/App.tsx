@@ -1,7 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import { Navbar } from './components/layout/Navbar'
 import { Footer } from './components/layout/Footer'
-import { ProtectedRoute } from './components/layout/ProtectedRoute'
 import Home from './pages/Home'
 import Pricing from './pages/Pricing'
 import Auth from './pages/Auth'
@@ -17,14 +16,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/auth" element={<Auth />} />
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/callback" element={<Callback />} />
         </Routes>
       </main>

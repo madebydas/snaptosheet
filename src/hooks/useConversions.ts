@@ -9,7 +9,10 @@ export function useConversions() {
   const [loading, setLoading] = useState(true)
 
   const fetchConversions = useCallback(async () => {
-    if (!user) return
+    if (!user) {
+      setLoading(false)
+      return
+    }
     setLoading(true)
     const { data } = await supabase
       .from('conversions')

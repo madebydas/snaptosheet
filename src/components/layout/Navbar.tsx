@@ -20,15 +20,15 @@ export function Navbar() {
         </Link>
 
         <div className="flex items-center gap-4">
+          <Link to="/dashboard" className="text-sm text-gray-600 hover:text-gray-900">
+            Dashboard
+          </Link>
           <Link to="/pricing" className="text-sm text-gray-600 hover:text-gray-900">
             Pricing
           </Link>
 
           {user ? (
             <>
-              <Link to="/dashboard" className="text-sm text-gray-600 hover:text-gray-900">
-                Dashboard
-              </Link>
               <div className="flex items-center gap-3">
                 {profile?.avatar_url ? (
                   <img src={profile.avatar_url} alt="" className="h-8 w-8 rounded-full" />
