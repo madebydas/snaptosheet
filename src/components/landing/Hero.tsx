@@ -97,9 +97,9 @@ export function Hero() {
         <div className="grid gap-16 lg:grid-cols-[55%_45%] lg:items-center">
           {/* Left column */}
           <div>
-            <h1 className="font-serif text-6xl leading-[1.05] tracking-tight sm:text-7xl lg:text-[88px]">
-              Any image.<br />
-              <em className="text-accent">Clean data.</em>
+            <h1 className="font-serif text-5xl leading-[1.05] tracking-tight sm:text-6xl lg:text-[72px]">
+              Your data is trapped in an image.<br />
+              <em className="text-accent">We get it out.</em>
             </h1>
             <p className="mt-6 max-w-md text-lg text-gray-600 leading-relaxed">
               Upload a screenshot of any table and get a clean CSV or Excel file

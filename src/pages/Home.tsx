@@ -1,6 +1,5 @@
 import { Hero } from '../components/landing/Hero'
 import { SocialProof } from '../components/landing/SocialProof'
-import { EditorialHeadline } from '../components/landing/EditorialHeadline'
 import { Marquee } from '../components/landing/Marquee'
 import { Features } from '../components/landing/Features'
 import { UseCaseGrid } from '../components/landing/UseCaseGrid'
@@ -18,7 +17,6 @@ export default function Home() {
       <StickyHeader />
       <Hero />
       <SocialProof />
-      <EditorialHeadline />
       <Marquee />
       <Features />
       <UseCaseGrid />
