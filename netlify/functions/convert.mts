@@ -114,6 +114,3 @@ Rules:
   }
 }
 
-export const config = {
-  path: "/.netlify/functions/convert",
-}
