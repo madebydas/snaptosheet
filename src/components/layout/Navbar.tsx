@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
+import { LogoLockup } from '../ui/Logo'
 
 export function Navbar() {
   const { user, signOut } = useAuth()
@@ -7,8 +8,11 @@ export function Navbar() {
   return (
     <nav className="border-b border-gray-200">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
-        <Link to="/" className="font-sans text-sm font-semibold tracking-tight text-black">
-          imgtosheet
+        <Link to="/" className="hidden sm:inline-flex">
+          <LogoLockup iconSize={28} wordmarkSize={18} />
+        </Link>
+        <Link to="/" className="inline-flex sm:hidden">
+          <LogoLockup iconSize={24} wordmarkSize={16} />
         </Link>
 
         <div className="flex items-center gap-6">

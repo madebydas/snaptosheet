@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Wordmark } from '../ui/Logo'
 
 export function StickyHeader() {
   const [visible, setVisible] = useState(false)
@@ -25,7 +26,7 @@ export function StickyHeader() {
       }`}
     >
       <div className="mx-auto max-w-6xl h-full flex items-center justify-between px-6">
-        <span className="font-sans text-sm font-medium text-black">imgtosheet</span>
+        <Wordmark size={16} />
         <div className="flex items-center gap-4">
           <span className="text-sm text-gray-500">
             1 free conversion per day &middot; No signup required
