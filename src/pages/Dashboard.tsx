@@ -9,7 +9,6 @@ import { Alert } from '../components/ui/Alert'
 import { useConversions } from '../hooks/useConversions'
 import { useUsage } from '../hooks/useUsage'
 import { useAuth } from '../hooks/useAuth'
-import { supabase } from '../lib/supabase'
 import type { TableData } from '../types'
 
 export default function Dashboard() {
