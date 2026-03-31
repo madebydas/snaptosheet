@@ -10,6 +10,7 @@ import { ComparisonSection } from '../components/landing/ComparisonSection'
 import { ValueStrip } from '../components/landing/ValueStrip'
 import { FAQ } from '../components/landing/FAQ'
 import { PricingSection } from '../components/pricing/PricingCard'
+import { MoreTools } from '../components/landing/MoreTools'
 import { StickyHeader } from '../components/landing/StickyHeader'
 
 export default function Home() {
@@ -29,6 +30,7 @@ export default function Home() {
       <ValueStrip />
       <FAQ />
       <PricingSection />
+      <MoreTools />
     </>
   )
 }
