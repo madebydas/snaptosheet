@@ -138,78 +138,98 @@ export function Hero() {
             )}
           </div>
 
-          {/* Right column — scattered real-world image collage */}
+          {/* Right column — before/after transformation collage */}
           <div className="hidden lg:block">
-            <div className="relative h-[420px]">
-              {/* Schedule — top left, yellowish paper */}
-              <div className="absolute top-0 left-0 w-[260px] -rotate-3 bg-[#FFFDE7] border border-[#E8E4D0] p-4 shadow-[2px_3px_12px_rgba(0,0,0,0.08)]">
-                <p className="text-[10px] font-sans font-medium text-gray-400 uppercase tracking-widest mb-3">Schedule</p>
-                <div className="space-y-1.5">
-                  <div className="flex justify-between text-[11px]">
-                    <span className="font-sans text-gray-800">Mon 9:00</span>
-                    <span className="font-sans text-gray-500">Team standup</span>
+            <div className="relative h-[440px]">
+              {/* Schedule — top left background, tilted */}
+              <div className="absolute top-0 left-0 w-[220px] -rotate-3 bg-[#FFFDE7] border border-[#E8E4D0] p-3 shadow-[2px_3px_12px_rgba(0,0,0,0.06)] opacity-60">
+                <p className="text-[9px] font-sans font-medium text-gray-400 uppercase tracking-widest mb-2">Schedule</p>
+                <div className="space-y-1">
+                  <div className="flex justify-between text-[10px]">
+                    <span className="font-sans text-gray-700">Mon 9:00</span>
+                    <span className="font-sans text-gray-400">Standup</span>
                   </div>
-                  <div className="flex justify-between text-[11px]">
-                    <span className="font-sans text-gray-800">Mon 11:30</span>
-                    <span className="font-sans text-gray-500">Design review</span>
+                  <div className="flex justify-between text-[10px]">
+                    <span className="font-sans text-gray-700">Tue 10:00</span>
+                    <span className="font-sans text-gray-400">Sprint plan</span>
                   </div>
-                  <div className="flex justify-between text-[11px]">
-                    <span className="font-sans text-gray-800">Tue 10:00</span>
-                    <span className="font-sans text-gray-500">Sprint planning</span>
-                  </div>
-                  <div className="flex justify-between text-[11px]">
-                    <span className="font-sans text-gray-800">Wed 14:00</span>
-                    <span className="font-sans text-gray-500">Client call</span>
-                  </div>
-                  <div className="flex justify-between text-[11px]">
-                    <span className="font-sans text-gray-800">Thu 9:00</span>
-                    <span className="font-sans text-gray-500">Retro</span>
+                  <div className="flex justify-between text-[10px]">
+                    <span className="font-sans text-gray-700">Wed 14:00</span>
+                    <span className="font-sans text-gray-400">Client call</span>
                   </div>
                 </div>
               </div>
 
-              {/* Inventory — middle right, blue-ish screenshot feel */}
-              <div className="absolute top-[80px] right-0 w-[240px] rotate-2 bg-[#F0F4FF] border border-[#D0D8E8] p-4 shadow-[2px_3px_12px_rgba(0,0,0,0.08)]">
-                <p className="text-[10px] font-sans font-medium text-gray-400 uppercase tracking-widest mb-3">Inventory</p>
+              {/* Menu — bottom left background, tilted */}
+              <div className="absolute bottom-[20px] left-[10px] w-[190px] rotate-2 bg-white border border-gray-200 p-3 shadow-[2px_3px_12px_rgba(0,0,0,0.06)] opacity-60">
+                <p className="text-[9px] font-sans font-medium text-gray-400 uppercase tracking-widest mb-2">Menu</p>
                 <div className="space-y-1">
-                  <div className="grid grid-cols-3 text-[10px] font-sans text-gray-400 border-b border-[#C8D0E0] pb-1">
+                  <div className="flex justify-between text-[10px] font-sans">
+                    <span className="text-gray-700">Margherita</span>
+                    <span className="text-gray-400">$14</span>
+                  </div>
+                  <div className="flex justify-between text-[10px] font-sans">
+                    <span className="text-gray-700">Grilled Salmon</span>
+                    <span className="text-gray-400">$24</span>
+                  </div>
+                  <div className="flex justify-between text-[10px] font-sans">
+                    <span className="text-gray-700">Tiramisu</span>
+                    <span className="text-gray-400">$9</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* BEFORE: Inventory — messy, tilted, blue tint */}
+              <div className="absolute top-[60px] left-[80px] w-[200px] -rotate-2 bg-[#F0F4FF] border border-[#D0D8E8] p-3 shadow-[2px_3px_12px_rgba(0,0,0,0.08)] z-10">
+                <p className="text-[9px] font-sans font-medium text-gray-400 uppercase tracking-widest mb-2">Screenshot</p>
+                <div className="space-y-0.5">
+                  <div className="grid grid-cols-3 text-[9px] font-sans text-gray-400 border-b border-[#C8D0E0] pb-0.5">
                     <span>Item</span><span className="text-right">Qty</span><span className="text-right">Price</span>
                   </div>
-                  <div className="grid grid-cols-3 text-[11px] font-sans text-gray-700">
+                  <div className="grid grid-cols-3 text-[10px] font-sans text-gray-600">
                     <span>USB-C Cable</span><span className="text-right">342</span><span className="text-right">$4.99</span>
                   </div>
-                  <div className="grid grid-cols-3 text-[11px] font-sans text-gray-700">
-                    <span>HDMI Adapter</span><span className="text-right">87</span><span className="text-right">$12.50</span>
+                  <div className="grid grid-cols-3 text-[10px] font-sans text-gray-600">
+                    <span>HDMI Adapt.</span><span className="text-right">87</span><span className="text-right">$12.50</span>
                   </div>
-                  <div className="grid grid-cols-3 text-[11px] font-sans text-gray-700">
+                  <div className="grid grid-cols-3 text-[10px] font-sans text-gray-600">
                     <span>Webcam HD</span><span className="text-right">156</span><span className="text-right">$34.00</span>
                   </div>
-                  <div className="grid grid-cols-3 text-[11px] font-sans text-gray-700">
-                    <span>Mouse Pad XL</span><span className="text-right">520</span><span className="text-right">$8.75</span>
+                  <div className="grid grid-cols-3 text-[10px] font-sans text-gray-600">
+                    <span>Mouse Pad</span><span className="text-right">520</span><span className="text-right">$8.75</span>
                   </div>
                 </div>
               </div>
 
-              {/* Menu — bottom left, white with slight tilt */}
-              <div className="absolute bottom-0 left-[40px] w-[220px] -rotate-1 bg-white border border-gray-200 p-4 shadow-[2px_3px_12px_rgba(0,0,0,0.08)]">
-                <p className="text-[10px] font-sans font-medium text-gray-400 uppercase tracking-widest mb-3">Menu</p>
-                <div className="space-y-1.5">
-                  <div className="flex justify-between text-[11px] font-sans">
-                    <span className="text-gray-800">Margherita</span>
-                    <span className="text-gray-500">$14</span>
+              {/* Arrow */}
+              <div className="absolute top-[145px] left-[290px] z-20 flex items-center">
+                <span className="text-2xl text-accent font-light">&rarr;</span>
+              </div>
+
+              {/* AFTER: Clean spreadsheet — crisp, no tilt */}
+              <div className="absolute top-[50px] right-0 w-[210px] bg-white border border-gray-200 p-0 shadow-[2px_3px_12px_rgba(0,0,0,0.08)] z-10">
+                <div className="px-3 py-2 border-b border-gray-100 flex items-center gap-1.5">
+                  <div className="w-2 h-2 rounded-full bg-accent/60" />
+                  <span className="text-[9px] font-sans font-medium text-gray-400 uppercase tracking-widest">Clean data</span>
+                </div>
+                <div>
+                  <div className="grid grid-cols-3 border-b-2 border-accent">
+                    <span className="px-2.5 py-1.5 font-mono text-[9px] font-medium text-black uppercase tracking-wider">Item</span>
+                    <span className="px-2.5 py-1.5 font-mono text-[9px] font-medium text-black uppercase tracking-wider text-right">Qty</span>
+                    <span className="px-2.5 py-1.5 font-mono text-[9px] font-medium text-black uppercase tracking-wider text-right">Price</span>
                   </div>
-                  <div className="flex justify-between text-[11px] font-sans">
-                    <span className="text-gray-800">Caesar Salad</span>
-                    <span className="text-gray-500">$11</span>
-                  </div>
-                  <div className="flex justify-between text-[11px] font-sans">
-                    <span className="text-gray-800">Grilled Salmon</span>
-                    <span className="text-gray-500">$24</span>
-                  </div>
-                  <div className="flex justify-between text-[11px] font-sans">
-                    <span className="text-gray-800">Tiramisu</span>
-                    <span className="text-gray-500">$9</span>
-                  </div>
+                  {[
+                    ['USB-C Cable', '342', '$4.99'],
+                    ['HDMI Adapter', '87', '$12.50'],
+                    ['Webcam HD', '156', '$34.00'],
+                    ['Mouse Pad XL', '520', '$8.75'],
+                  ].map((row, i) => (
+                    <div key={i} className={`grid grid-cols-3 border-b border-gray-100 ${i % 2 === 1 ? 'bg-gray-50/60' : ''}`}>
+                      <span className="px-2.5 py-1.5 font-mono text-[10px] text-gray-900">{row[0]}</span>
+                      <span className="px-2.5 py-1.5 font-mono text-[10px] text-gray-900 text-right">{row[1]}</span>
+                      <span className="px-2.5 py-1.5 font-mono text-[10px] text-gray-900 text-right">{row[2]}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>

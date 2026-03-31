@@ -1,6 +1,6 @@
 export function Callout() {
   return (
-    <section className="py-24">
+    <section className="pt-12 pb-24">
       <div className="mx-auto max-w-3xl px-6">
         <div className="bg-surface px-8 py-12 sm:px-12">
           <h2 className="font-serif text-3xl sm:text-4xl leading-tight">

@@ -44,7 +44,7 @@ export function ImageUploader({ onUpload, disabled }: ImageUploaderProps) {
     <div className="space-y-3">
       <div
         className={`flex min-h-[160px] cursor-pointer flex-col items-center justify-center border-2 border-dashed transition-colors ${
-          dragOver ? 'border-accent bg-accent/5' : 'border-gray-300 hover:border-accent'
+          dragOver ? 'border-accent bg-accent/5' : 'border-gray-400 bg-[#FAFAFA] hover:border-accent hover:bg-accent/5'
         } ${disabled ? 'cursor-not-allowed opacity-40' : ''}`}
         onDragOver={(e) => {
           e.preventDefault()

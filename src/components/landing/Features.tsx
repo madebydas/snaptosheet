@@ -1,7 +1,7 @@
 const features = [
   {
-    label: 'Claude vision extraction',
-    description: 'AI vision, not OCR. Reads your image the way a human would.',
+    label: 'AI vision extraction',
+    description: 'Powered by AI vision, not OCR. Reads your image the way a human would.',
   },
   {
     label: 'Edit before you download',
@@ -15,7 +15,7 @@ const features = [
 
 export function Features() {
   return (
-    <section className="py-24">
+    <section className="py-24 pb-12">
       <div className="mx-auto max-w-3xl px-6">
         <div className="space-y-0">
           {features.map((f) => (
