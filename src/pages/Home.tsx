@@ -3,7 +3,6 @@ import { Marquee } from '../components/landing/Marquee'
 import { Features } from '../components/landing/Features'
 import { HowItWorks, Callout } from '../components/landing/HowItWorks'
 import { PricingSection } from '../components/pricing/PricingCard'
-import { FounderNote } from '../components/landing/FounderNote'
 
 export default function Home() {
   return (
@@ -14,7 +13,6 @@ export default function Home() {
       <HowItWorks />
       <Callout />
       <PricingSection />
-      <FounderNote />
     </>
   )
 }
