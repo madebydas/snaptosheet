@@ -123,7 +123,7 @@ export function Hero() {
                 </p>
               </div>
             ) : (
-              <div className="mt-8">
+              <div className="mt-8" id="upload-zone">
                 <ImageUploader onUpload={handleUpload} disabled={converting || !canUpload} />
                 {converting ? (
                   <p className="mt-3 text-xs text-gray-400">
