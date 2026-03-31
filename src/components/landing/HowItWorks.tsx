@@ -31,7 +31,7 @@ export function HowItWorks() {
               <h3 className="font-serif text-2xl sm:text-3xl">Upload any image</h3>
               <p className="mt-3 text-base text-gray-500 leading-relaxed max-w-md">
                 Drag and drop a screenshot, photo, or scan of any table.
-                PNG, JPG, WEBP — all work. Up to 10MB.
+                PNG, JPG, WEBP — all work. Up to 4MB.
               </p>
             </div>
           </div>

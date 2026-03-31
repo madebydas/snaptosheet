@@ -60,7 +60,25 @@ export default async (req: Request, _context: Context) => {
     const user = token ? await getUserFromToken(token) : null
     const admin = getSupabaseAdmin()
 
-    // Rate limiting
+    // Global rate limit: max 200 conversions per hour across all users
+    if (admin) {
+      const oneHourAgo = new Date()
+      oneHourAgo.setHours(oneHourAgo.getHours() - 1)
+
+      const { count: globalCount } = await admin
+        .from("anonymous_conversions")
+        .select("*", { count: "exact", head: true })
+        .gte("created_at", oneHourAgo.toISOString())
+
+      if ((globalCount ?? 0) >= 200) {
+        return new Response(
+          JSON.stringify({ error: "Service is temporarily busy. Please try again in a few minutes." }),
+          { status: 503, headers: jsonHeaders },
+        )
+      }
+    }
+
+    // Per-user rate limiting
     if (admin) {
       if (user) {
         // Logged-in user
@@ -122,6 +140,15 @@ export default async (req: Request, _context: Context) => {
       return new Response(
         JSON.stringify({ error: "No image provided" }),
         { status: 400, headers: jsonHeaders },
+      )
+    }
+
+    // Image size enforcement: reject images over 4MB (base64 is ~33% larger than raw)
+    const imageSizeBytes = Math.ceil(imageBase64.length * 3 / 4)
+    if (imageSizeBytes > 4 * 1024 * 1024) {
+      return new Response(
+        JSON.stringify({ error: "Image too large. Maximum size is 4MB." }),
+        { status: 413, headers: jsonHeaders },
       )
     }
 
