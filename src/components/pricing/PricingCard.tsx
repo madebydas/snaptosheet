@@ -4,24 +4,25 @@ const tiers = [
   {
     name: 'Free',
     price: '$0',
-    description: '5 conversions per month. No credit card.',
+    description: '5 conversions per month. Export in CSV or Excel. No credit card needed.',
     cta: 'Get started',
     ctaLink: '/auth',
     highlighted: false,
   },
   {
-    name: 'Starter',
-    price: '$9/mo',
-    description: '50 conversions per month. Priority processing.',
+    name: 'Yearly',
+    price: '$59/yr',
+    description: '50 conversions per month. Booster credits available when you need more.',
     cta: 'Start plan',
     ctaLink: '/auth',
     highlighted: false,
   },
   {
-    name: 'Pro',
-    price: '$19/mo',
-    description: 'Unlimited conversions. Bulk upload. API access.',
-    cta: 'Start plan',
+    name: 'Lifetime',
+    price: '$199',
+    badge: 'one-time',
+    description: 'Pay once, convert forever. 50 conversions/month for life. No renewals, no surprises.',
+    cta: 'Get lifetime access',
     ctaLink: '/auth',
     highlighted: true,
   },
@@ -39,9 +40,16 @@ export function PricingSection() {
               key={tier.name}
               className={`border border-gray-200 px-6 py-8 ${
                 tier.highlighted ? 'border-accent' : ''
-              } ${tier.name === 'Free' ? 'sm:border-r-0' : ''} ${tier.name === 'Pro' ? 'sm:border-l-0' : ''}`}
+              } ${tier.name === 'Free' ? 'sm:border-r-0' : ''} ${tier.name === 'Lifetime' ? 'sm:border-l-0' : ''}`}
             >
-              <p className="text-sm font-medium text-gray-500">{tier.name}</p>
+              <div className="flex items-center gap-2">
+                <p className="text-sm font-medium text-gray-500">{tier.name}</p>
+                {tier.badge && (
+                  <span className="text-[10px] font-medium text-accent border border-accent/30 px-1.5 py-0.5">
+                    {tier.badge}
+                  </span>
+                )}
+              </div>
               <p className="mt-2 font-serif text-3xl">{tier.price}</p>
               <p className="mt-3 text-sm text-gray-500 leading-relaxed">{tier.description}</p>
               <Link
