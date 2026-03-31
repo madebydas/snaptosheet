@@ -75,21 +75,22 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 });
 
 async function handleAreaCapture(tab, rect, dpr) {
-  await showResults({ status: "pending" });
-
   try {
-    // Capture visible tab
+    // Capture BEFORE opening results tab
     const dataUrl = await chrome.tabs.captureVisibleTab(tab.windowId, {
       format: "png",
     });
 
-    // Send to content script for cropping
+    // Crop BEFORE opening results tab
     const croppedBase64 = await sendToContentScript(tab.id, {
       action: "cropImage",
       dataUrl,
       rect,
       devicePixelRatio: dpr,
     });
+
+    // Now open results tab with pending state
+    await showResults({ status: "pending" });
 
     const data = await callConvertApi(croppedBase64, "screenshot.png");
     await showResults({ status: "done", data });
