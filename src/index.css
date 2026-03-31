@@ -3,5 +3,9 @@
 @tailwind utilities;
 
 body {
-  @apply bg-gray-50 text-gray-900 antialiased;
+  font-family: 'DM Sans', sans-serif;
+  background-color: #FAFAFA;
+  color: #111;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

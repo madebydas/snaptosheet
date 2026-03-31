@@ -1,5 +1,4 @@
 import type { Conversion, TableData } from '../../types'
-import { Card } from '../ui/Card'
 import { formatDate } from '../../lib/utils'
 
 interface ConversionHistoryProps {
@@ -10,19 +9,19 @@ interface ConversionHistoryProps {
 export function ConversionHistory({ conversions, onSelect }: ConversionHistoryProps) {
   if (conversions.length === 0) {
     return (
-      <p className="text-sm text-gray-500">
-        No conversions yet. Upload an image to get started!
+      <p className="text-sm text-gray-400">
+        No conversions yet.
       </p>
     )
   }
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-0">
       {conversions.map((c) => (
-        <Card
+        <div
           key={c.id}
-          className={`flex items-center gap-4 p-4 ${
-            c.status === 'completed' ? 'cursor-pointer hover:border-brand-300' : ''
+          className={`border-b border-gray-100 py-3 ${
+            c.status === 'completed' ? 'cursor-pointer hover:bg-gray-50 transition-colors' : ''
           }`}
           onClick={() => {
             if (c.status === 'completed' && c.extracted_data) {
@@ -30,31 +29,18 @@ export function ConversionHistory({ conversions, onSelect }: ConversionHistoryPr
             }
           }}
         >
-          {c.image_url && (
-            <img
-              src={c.image_url}
-              alt=""
-              className="h-12 w-12 rounded-lg object-cover"
-            />
-          )}
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-gray-900 truncate">
-              Conversion {c.id.slice(0, 8)}
-            </p>
-            <p className="text-xs text-gray-500">{formatDate(c.created_at)}</p>
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-gray-700 font-mono truncate">
+              {c.id.slice(0, 8)}
+            </span>
+            <span className={`text-xs ${
+              c.status === 'completed' ? 'text-accent' : c.status === 'failed' ? 'text-red-500' : 'text-gray-400'
+            }`}>
+              {c.status}
+            </span>
           </div>
-          <span
-            className={`inline-flex rounded-full px-2 py-1 text-xs font-medium ${
-              c.status === 'completed'
-                ? 'bg-green-50 text-green-700'
-                : c.status === 'failed'
-                  ? 'bg-red-50 text-red-700'
-                  : 'bg-yellow-50 text-yellow-700'
-            }`}
-          >
-            {c.status}
-          </span>
-        </Card>
+          <p className="text-xs text-gray-400 mt-0.5">{formatDate(c.created_at)}</p>
+        </div>
       ))}
     </div>
   )

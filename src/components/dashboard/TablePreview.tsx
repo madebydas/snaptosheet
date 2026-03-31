@@ -31,7 +31,7 @@ export function TablePreview({ data, onDataChange }: TablePreviewProps) {
 
   const addColumn = () => {
     onDataChange({
-      headers: [...data.headers, `Column ${data.headers.length + 1}`],
+      headers: [...data.headers, `Col ${data.headers.length + 1}`],
       rows: data.rows.map((row) => [...row, '']),
     })
   }
@@ -45,28 +45,27 @@ export function TablePreview({ data, onDataChange }: TablePreviewProps) {
 
   return (
     <div className="space-y-3">
-      <div className="flex gap-2">
-        <button onClick={addRow} className="text-xs text-brand-600 hover:underline">
-          + Add Row
+      <div className="flex gap-4">
+        <button onClick={addRow} className="text-xs text-gray-400 hover:text-black transition-colors">
+          + row
         </button>
-        <button onClick={addColumn} className="text-xs text-brand-600 hover:underline">
-          + Add Column
+        <button onClick={addColumn} className="text-xs text-gray-400 hover:text-black transition-colors">
+          + column
         </button>
       </div>
 
-      <div className="overflow-x-auto rounded-lg border border-gray-200">
+      <div className="overflow-x-auto border border-gray-200">
         <table className="w-full text-left">
           <thead>
-            <tr className="bg-gray-50">
+            <tr className="border-b-2 border-accent">
               {data.headers.map((header, ci) => (
-                <th key={ci} className="border-b border-gray-200 px-1 py-1">
+                <th key={ci} className="px-1 py-1">
                   <div className="flex items-center gap-1">
                     <EditableCell value={header} onChange={(v) => updateHeader(ci, v)} />
                     {data.headers.length > 1 && (
                       <button
                         onClick={() => removeColumn(ci)}
-                        className="text-xs text-gray-400 hover:text-red-500"
-                        title="Remove column"
+                        className="text-xs text-gray-300 hover:text-red-500 transition-colors"
                       >
                         x
                       </button>
@@ -74,12 +73,12 @@ export function TablePreview({ data, onDataChange }: TablePreviewProps) {
                   </div>
                 </th>
               ))}
-              <th className="w-8 border-b border-gray-200" />
+              <th className="w-6" />
             </tr>
           </thead>
           <tbody>
             {data.rows.map((row, ri) => (
-              <tr key={ri} className="border-b border-gray-100 last:border-0">
+              <tr key={ri} className={`border-b border-gray-100 ${ri % 2 === 1 ? 'bg-gray-50/50' : ''}`}>
                 {row.map((cell, ci) => (
                   <td key={ci} className="px-1 py-0.5">
                     <EditableCell value={cell} onChange={(v) => updateCell(ri, ci, v)} />
@@ -88,8 +87,7 @@ export function TablePreview({ data, onDataChange }: TablePreviewProps) {
                 <td className="px-1">
                   <button
                     onClick={() => removeRow(ri)}
-                    className="text-xs text-gray-400 hover:text-red-500"
-                    title="Remove row"
+                    className="text-xs text-gray-300 hover:text-red-500 transition-colors"
                   >
                     x
                   </button>

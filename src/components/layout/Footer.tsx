@@ -1,8 +1,18 @@
+import { Link } from 'react-router-dom'
+
 export function Footer() {
   return (
-    <footer className="border-t border-gray-200 bg-white py-8">
-      <div className="mx-auto max-w-6xl px-4 text-center text-sm text-gray-500">
-        &copy; {new Date().getFullYear()} SnapToSheet. All rights reserved.
+    <footer className="border-t border-gray-200 py-8">
+      <div className="mx-auto max-w-6xl px-6 flex items-center justify-between">
+        <span className="text-xs text-gray-400">imgtosheet</span>
+        <div className="flex items-center gap-6">
+          <Link to="/pricing" className="text-xs text-gray-400 hover:text-black transition-colors">
+            Pricing
+          </Link>
+          <Link to="/auth" className="text-xs text-gray-400 hover:text-black transition-colors">
+            Sign in
+          </Link>
+        </div>
       </div>
     </footer>
   )

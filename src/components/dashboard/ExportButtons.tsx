@@ -1,4 +1,3 @@
-import { Button } from '../ui/Button'
 import type { TableData } from '../../types'
 import * as XLSX from 'xlsx'
 
@@ -23,7 +22,7 @@ function downloadBlob(blob: Blob, filename: string) {
   URL.revokeObjectURL(url)
 }
 
-export function ExportButtons({ data, filename = 'snaptosheet-export' }: ExportButtonsProps) {
+export function ExportButtons({ data, filename = 'imgtosheet-export' }: ExportButtonsProps) {
   const exportCsv = () => {
     const headerLine = data.headers.map(escapeCsvCell).join(',')
     const rowLines = data.rows.map((row) => row.map(escapeCsvCell).join(','))
@@ -42,13 +41,19 @@ export function ExportButtons({ data, filename = 'snaptosheet-export' }: ExportB
   }
 
   return (
-    <div className="flex gap-2">
-      <Button variant="secondary" size="sm" onClick={exportCsv}>
+    <div className="flex gap-3">
+      <button
+        onClick={exportCsv}
+        className="text-sm text-gray-500 underline underline-offset-4 hover:text-black transition-colors"
+      >
         Download CSV
-      </Button>
-      <Button variant="secondary" size="sm" onClick={exportXlsx}>
+      </button>
+      <button
+        onClick={exportXlsx}
+        className="text-sm text-gray-500 underline underline-offset-4 hover:text-black transition-colors"
+      >
         Download Excel
-      </Button>
+      </button>
     </div>
   )
 }

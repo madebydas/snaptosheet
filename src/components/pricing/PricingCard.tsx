@@ -1,48 +1,63 @@
-import { Card } from '../ui/Card'
-import { Button } from '../ui/Button'
-import { cn } from '../../lib/utils'
+import { Link } from 'react-router-dom'
 
-interface PricingCardProps {
-  name: string
-  price: number
-  features: string[]
-  cta: string
-  highlighted?: boolean
-  onSelect: () => void
-}
+const tiers = [
+  {
+    name: 'Free',
+    price: '$0',
+    description: '5 conversions per month. No credit card.',
+    cta: 'Get started',
+    ctaLink: '/auth',
+    highlighted: false,
+  },
+  {
+    name: 'Starter',
+    price: '$9/mo',
+    description: '50 conversions per month. Priority processing.',
+    cta: 'Start plan',
+    ctaLink: '/auth',
+    highlighted: false,
+  },
+  {
+    name: 'Pro',
+    price: '$19/mo',
+    description: 'Unlimited conversions. Bulk upload. API access.',
+    cta: 'Start plan',
+    ctaLink: '/auth',
+    highlighted: true,
+  },
+]
 
-export function PricingCard({ name, price, features, cta, highlighted, onSelect }: PricingCardProps) {
+export function PricingSection() {
   return (
-    <Card
-      className={cn(
-        'flex flex-col text-center',
-        highlighted && 'border-brand-600 ring-2 ring-brand-600',
-      )}
-    >
-      <h3 className="text-xl font-bold text-gray-900">{name}</h3>
-      <div className="mt-4">
-        <span className="text-4xl font-extrabold text-gray-900">
-          ${price}
-        </span>
-        {price > 0 && <span className="text-gray-500">/month</span>}
+    <section className="py-24">
+      <div className="mx-auto max-w-3xl px-6">
+        <h2 className="font-serif text-4xl text-center sm:text-5xl">Simple pricing</h2>
+
+        <div className="mt-16 grid gap-0 sm:grid-cols-3">
+          {tiers.map((tier) => (
+            <div
+              key={tier.name}
+              className={`border border-gray-200 px-6 py-8 ${
+                tier.highlighted ? 'border-accent' : ''
+              } ${tier.name === 'Free' ? 'sm:border-r-0' : ''} ${tier.name === 'Pro' ? 'sm:border-l-0' : ''}`}
+            >
+              <p className="text-sm font-medium text-gray-500">{tier.name}</p>
+              <p className="mt-2 font-serif text-3xl">{tier.price}</p>
+              <p className="mt-3 text-sm text-gray-500 leading-relaxed">{tier.description}</p>
+              <Link
+                to={tier.ctaLink}
+                className={`mt-6 block text-center py-2.5 text-sm font-medium transition-colors ${
+                  tier.highlighted
+                    ? 'bg-accent text-white hover:bg-accent-hover'
+                    : 'border border-gray-300 text-black hover:border-gray-500'
+                }`}
+              >
+                {tier.cta}
+              </Link>
+            </div>
+          ))}
+        </div>
       </div>
-      <ul className="mt-6 flex-1 space-y-3 text-sm text-gray-600">
-        {features.map((f) => (
-          <li key={f} className="flex items-center justify-center gap-2">
-            <svg className="h-4 w-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-            {f}
-          </li>
-        ))}
-      </ul>
-      <Button
-        className="mt-8 w-full"
-        variant={highlighted ? 'primary' : 'outline'}
-        onClick={onSelect}
-      >
-        {cta}
-      </Button>
-    </Card>
+    </section>
   )
 }

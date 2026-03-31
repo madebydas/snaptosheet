@@ -4,11 +4,6 @@ import { ImageUploader } from '../components/dashboard/ImageUploader'
 import { TablePreview } from '../components/dashboard/TablePreview'
 import { ExportButtons } from '../components/dashboard/ExportButtons'
 import { ConversionHistory } from '../components/dashboard/ConversionHistory'
-import { UsageBadge } from '../components/dashboard/UsageBadge'
-import { Spinner } from '../components/ui/Spinner'
-import { Alert } from '../components/ui/Alert'
-import { Button } from '../components/ui/Button'
-import { Card } from '../components/ui/Card'
 import { useConversions } from '../hooks/useConversions'
 import { useUsage } from '../hooks/useUsage'
 import { useAuth } from '../hooks/useAuth'
@@ -19,7 +14,7 @@ const TRIAL_KEY = 'snaptosheet_trial_used'
 export default function Dashboard() {
   const { user } = useAuth()
   const { conversions, refetch } = useConversions()
-  const { canConvert } = useUsage()
+  const { canConvert, used, limit, plan } = useUsage()
   const [tableData, setTableData] = useState<TableData | null>(null)
   const [converting, setConverting] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -42,16 +37,11 @@ export default function Dashboard() {
       }
       const imageBase64 = btoa(binary)
 
-      const res = await fetch(
-        '/.netlify/functions/convert',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ imageBase64, fileName: file.name }),
-        },
-      )
+      const res = await fetch('/.netlify/functions/convert', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ imageBase64, fileName: file.name }),
+      })
 
       const result = await res.json()
 
@@ -77,66 +67,63 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-        {user && <UsageBadge />}
-        {!user && !trialUsed && (
-          <span className="inline-flex items-center rounded-full bg-green-100 px-4 py-2 text-sm font-medium text-green-800">
-            1 free trial conversion
+    <div className="mx-auto max-w-5xl px-6 py-16">
+      <div className="flex items-center justify-between mb-10">
+        <h1 className="font-serif text-4xl">Dashboard</h1>
+        {user && (
+          <span className="text-sm text-gray-500">
+            {plan === 'pro' ? `${used} conversions` : `${used}/${limit} conversions`} this month
           </span>
         )}
       </div>
 
-      {error && <Alert type="error" message={error} className="mb-6" />}
+      {error && <p className="mb-6 text-sm text-red-600">{error}</p>}
 
-      <div className="grid gap-8 lg:grid-cols-3">
-        <div className="lg:col-span-2 space-y-6">
+      <div className="grid gap-12 lg:grid-cols-[1fr_300px]">
+        <div className="space-y-8">
           {!user && trialUsed && !tableData ? (
-            <Card className="text-center py-12">
-              <h2 className="text-2xl font-bold text-gray-900">Create an account to continue</h2>
-              <p className="mt-3 text-gray-600">
-                You've used your free trial conversion. Sign up to get 5 free conversions per month, or upgrade to Pro for unlimited.
+            <div className="border border-gray-200 px-8 py-12 text-center">
+              <h2 className="font-serif text-2xl">Create an account to continue</h2>
+              <p className="mt-3 text-sm text-gray-500">
+                Sign up to get 5 free conversions per month.
               </p>
               <div className="mt-6 flex items-center justify-center gap-4">
-                <Link to="/auth">
-                  <Button size="lg">Sign Up Free</Button>
+                <Link
+                  to="/auth"
+                  className="bg-accent text-white px-8 py-2.5 text-sm font-medium hover:bg-accent-hover transition-colors"
+                >
+                  Sign up free
                 </Link>
-                <Link to="/pricing">
-                  <Button variant="outline" size="lg">View Pricing</Button>
+                <Link to="/pricing" className="text-sm text-gray-500 underline underline-offset-4 hover:text-black">
+                  View pricing
                 </Link>
               </div>
-            </Card>
+            </div>
           ) : (
             <div>
-              <h2 className="mb-3 text-lg font-semibold text-gray-900">Upload Image</h2>
+              <p className="mb-3 text-sm text-gray-500">Upload an image</p>
               <ImageUploader onUpload={handleUpload} disabled={converting || !canUpload} />
-            </div>
-          )}
-
-          {converting && (
-            <div className="flex items-center gap-3 rounded-lg bg-blue-50 px-4 py-3">
-              <Spinner className="h-5 w-5" />
-              <span className="text-sm text-blue-700">Extracting table data...</span>
+              {converting && (
+                <p className="mt-3 text-xs text-gray-400">Extracting table data...</p>
+              )}
             </div>
           )}
 
           {tableData && (
             <div>
-              <div className="mb-3 flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-gray-900">Table Preview</h2>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="font-serif text-2xl">Result</h2>
                 <ExportButtons data={tableData} />
               </div>
               <TablePreview data={tableData} onDataChange={setTableData} />
 
               {!user && trialUsed && (
-                <div className="mt-6 rounded-lg bg-brand-50 border border-brand-200 p-4 text-center">
-                  <p className="text-sm text-brand-800 font-medium">
-                    Want to convert more images?{' '}
-                    <Link to="/auth" className="underline font-bold">Sign up free</Link>
-                    {' '}for 5 conversions/month.
-                  </p>
-                </div>
+                <p className="mt-6 text-sm text-gray-500">
+                  Want more?{' '}
+                  <Link to="/auth" className="text-accent font-medium underline underline-offset-4">
+                    Sign up free
+                  </Link>
+                </p>
               )}
             </div>
           )}
@@ -144,7 +131,7 @@ export default function Dashboard() {
 
         {user && (
           <div>
-            <h2 className="mb-3 text-lg font-semibold text-gray-900">History</h2>
+            <p className="mb-4 text-sm text-gray-500">History</p>
             <ConversionHistory
               conversions={conversions}
               onSelect={(data) => setTableData(data)}
