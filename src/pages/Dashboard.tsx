@@ -35,15 +35,12 @@ export default function Dashboard() {
       }
       const imageBase64 = btoa(binary)
 
-      const { data: { session } } = await supabase.auth.getSession()
-
       const res = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/convert`,
+        '/.netlify/functions/convert',
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${session?.access_token}`,
           },
           body: JSON.stringify({ imageBase64, fileName: file.name }),
         },
