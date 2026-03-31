@@ -8,13 +8,6 @@ import { ExportButtons } from '../dashboard/ExportButtons'
 
 const TRIAL_KEY = 'snaptosheet_trial_used'
 
-const mockBefore = [
-  ['Product', 'Q1', 'Q2', 'Q3'],
-  ['Widget A', '$12,400', '$14,200', '$13,800'],
-  ['Widget B', '$8,900', '$9,100', '$11,200'],
-  ['Widget C', '$22,000', '$19,500', '$24,100'],
-]
-
 export function Hero() {
   const { user } = useAuth()
   const [tableData, setTableData] = useState<TableData | null>(null)
@@ -145,57 +138,78 @@ export function Hero() {
             )}
           </div>
 
-          {/* Right column — before/after visual */}
+          {/* Right column — scattered real-world image collage */}
           <div className="hidden lg:block">
-            <div className="flex gap-0 overflow-hidden">
-              {/* Before: blurry image */}
-              <div className="flex-1 bg-white border border-gray-200 p-4 -rotate-1 opacity-80 blur-[0.5px]">
-                <div className="space-y-0">
-                  {mockBefore.map((row, ri) => (
-                    <div key={ri} className={`grid grid-cols-4 ${ri === 0 ? 'border-b border-gray-300' : ''}`}>
-                      {row.map((cell, ci) => (
-                        <div
-                          key={ci}
-                          className={`px-3 py-2 text-xs ${
-                            ri === 0
-                              ? 'font-medium text-gray-500 font-sans'
-                              : 'font-mono text-gray-700'
-                          } ${ri > 0 && ri % 2 === 0 ? 'bg-gray-50' : ''}`}
-                        >
-                          {cell}
-                        </div>
-                      ))}
-                    </div>
-                  ))}
+            <div className="relative h-[420px]">
+              {/* Schedule — top left, yellowish paper */}
+              <div className="absolute top-0 left-0 w-[260px] -rotate-3 bg-[#FFFDE7] border border-[#E8E4D0] p-4 shadow-[2px_3px_12px_rgba(0,0,0,0.08)]">
+                <p className="text-[10px] font-sans font-medium text-gray-400 uppercase tracking-widest mb-3">Schedule</p>
+                <div className="space-y-1.5">
+                  <div className="flex justify-between text-[11px]">
+                    <span className="font-sans text-gray-800">Mon 9:00</span>
+                    <span className="font-sans text-gray-500">Team standup</span>
+                  </div>
+                  <div className="flex justify-between text-[11px]">
+                    <span className="font-sans text-gray-800">Mon 11:30</span>
+                    <span className="font-sans text-gray-500">Design review</span>
+                  </div>
+                  <div className="flex justify-between text-[11px]">
+                    <span className="font-sans text-gray-800">Tue 10:00</span>
+                    <span className="font-sans text-gray-500">Sprint planning</span>
+                  </div>
+                  <div className="flex justify-between text-[11px]">
+                    <span className="font-sans text-gray-800">Wed 14:00</span>
+                    <span className="font-sans text-gray-500">Client call</span>
+                  </div>
+                  <div className="flex justify-between text-[11px]">
+                    <span className="font-sans text-gray-800">Thu 9:00</span>
+                    <span className="font-sans text-gray-500">Retro</span>
+                  </div>
                 </div>
               </div>
 
-              {/* Divider */}
-              <div className="flex flex-col items-center justify-center px-4">
-                <div className="w-px h-full bg-gray-300" />
-                <span className="my-2 text-gray-400 text-lg">&rarr;</span>
-                <div className="w-px h-full bg-gray-300" />
+              {/* Inventory — middle right, blue-ish screenshot feel */}
+              <div className="absolute top-[80px] right-0 w-[240px] rotate-2 bg-[#F0F4FF] border border-[#D0D8E8] p-4 shadow-[2px_3px_12px_rgba(0,0,0,0.08)]">
+                <p className="text-[10px] font-sans font-medium text-gray-400 uppercase tracking-widest mb-3">Inventory</p>
+                <div className="space-y-1">
+                  <div className="grid grid-cols-3 text-[10px] font-sans text-gray-400 border-b border-[#C8D0E0] pb-1">
+                    <span>Item</span><span className="text-right">Qty</span><span className="text-right">Price</span>
+                  </div>
+                  <div className="grid grid-cols-3 text-[11px] font-sans text-gray-700">
+                    <span>USB-C Cable</span><span className="text-right">342</span><span className="text-right">$4.99</span>
+                  </div>
+                  <div className="grid grid-cols-3 text-[11px] font-sans text-gray-700">
+                    <span>HDMI Adapter</span><span className="text-right">87</span><span className="text-right">$12.50</span>
+                  </div>
+                  <div className="grid grid-cols-3 text-[11px] font-sans text-gray-700">
+                    <span>Webcam HD</span><span className="text-right">156</span><span className="text-right">$34.00</span>
+                  </div>
+                  <div className="grid grid-cols-3 text-[11px] font-sans text-gray-700">
+                    <span>Mouse Pad XL</span><span className="text-right">520</span><span className="text-right">$8.75</span>
+                  </div>
+                </div>
               </div>
 
-              {/* After: clean spreadsheet */}
-              <div className="flex-1 bg-white border border-gray-200 p-4 rotate-0">
-                <div className="space-y-0">
-                  {mockBefore.map((row, ri) => (
-                    <div key={ri} className={`grid grid-cols-4 ${ri === 0 ? 'border-b-2 border-accent' : 'border-b border-gray-100'}`}>
-                      {row.map((cell, ci) => (
-                        <div
-                          key={ci}
-                          className={`px-3 py-2 text-xs ${
-                            ri === 0
-                              ? 'font-medium text-black font-mono uppercase tracking-wider text-[10px]'
-                              : 'font-mono text-gray-900'
-                          } ${ri > 0 && ri % 2 === 0 ? 'bg-gray-50/50' : ''}`}
-                        >
-                          {cell}
-                        </div>
-                      ))}
-                    </div>
-                  ))}
+              {/* Menu — bottom left, white with slight tilt */}
+              <div className="absolute bottom-0 left-[40px] w-[220px] -rotate-1 bg-white border border-gray-200 p-4 shadow-[2px_3px_12px_rgba(0,0,0,0.08)]">
+                <p className="text-[10px] font-sans font-medium text-gray-400 uppercase tracking-widest mb-3">Menu</p>
+                <div className="space-y-1.5">
+                  <div className="flex justify-between text-[11px] font-sans">
+                    <span className="text-gray-800">Margherita</span>
+                    <span className="text-gray-500">$14</span>
+                  </div>
+                  <div className="flex justify-between text-[11px] font-sans">
+                    <span className="text-gray-800">Caesar Salad</span>
+                    <span className="text-gray-500">$11</span>
+                  </div>
+                  <div className="flex justify-between text-[11px] font-sans">
+                    <span className="text-gray-800">Grilled Salmon</span>
+                    <span className="text-gray-500">$24</span>
+                  </div>
+                  <div className="flex justify-between text-[11px] font-sans">
+                    <span className="text-gray-800">Tiramisu</span>
+                    <span className="text-gray-500">$9</span>
+                  </div>
                 </div>
               </div>
             </div>
