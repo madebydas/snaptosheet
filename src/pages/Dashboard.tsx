@@ -10,7 +10,7 @@ import { useAuth } from '../hooks/useAuth'
 import { supabase } from '../lib/supabase'
 import type { TableData } from '../types'
 
-const TRIAL_KEY = 'snaptosheet_trial_used'
+const TRIAL_KEY = 'imgtosheet_trial_used'
 
 export default function Dashboard() {
   const { user } = useAuth()

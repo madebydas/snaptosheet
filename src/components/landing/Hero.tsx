@@ -7,7 +7,7 @@ import { ImageUploader } from '../dashboard/ImageUploader'
 import { TablePreview } from '../dashboard/TablePreview'
 import { ExportButtons } from '../dashboard/ExportButtons'
 
-const TRIAL_KEY = 'snaptosheet_trial_used'
+const TRIAL_KEY = 'imgtosheet_trial_used'
 
 export function Hero() {
   const { user } = useAuth()

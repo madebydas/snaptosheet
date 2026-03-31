@@ -1,5 +1,5 @@
 [project]
-id = "snaptosheet"
+id = "imgtosheet"
 
 [api]
 port = 54321

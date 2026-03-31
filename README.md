@@ -1,13 +1,13 @@
-# SnapToSheet
+# imgtosheet
 
-Turn photos of tables into editable spreadsheets. Upload an image of any table, menu, receipt, or schedule and SnapToSheet uses GPT-4o vision to extract the data into a spreadsheet you can edit and download.
+Turn photos of tables into editable spreadsheets. Upload an image of any table, menu, receipt, or schedule and imgtosheet uses AI vision to extract the data into a spreadsheet you can edit and download.
 
 ## Features
 
-- **AI-Powered Extraction** — GPT-4o vision reads your images and extracts structured table data
+- **AI-Powered Extraction** — AI vision reads your images and extracts structured table data
 - **Inline Editing** — Review and edit extracted data directly in the browser
 - **CSV & Excel Export** — Download as CSV or XLSX files
-- **Free & Pro Plans** — 5 free conversions/month, unlimited with Pro ($9/month)
+- **Free & Paid Plans** — 5 free conversions/month, upgrade for more
 - **Conversion History** — Access all past conversions from your dashboard
 - **Secure** — Supabase RLS ensures user data isolation
 
@@ -17,8 +17,8 @@ Turn photos of tables into editable spreadsheets. Upload an image of any table, 
 - **Auth:** Supabase Auth (Google OAuth + email/password)
 - **Database:** Supabase (PostgreSQL with RLS)
 - **Payments:** Stripe (checkout sessions + webhooks)
-- **AI:** OpenAI GPT-4o vision API
-- **Backend:** Supabase Edge Functions
+- **AI:** Anthropic Claude API (vision)
+- **Backend:** Netlify Functions
 
 ## Setup
 
@@ -27,7 +27,7 @@ Turn photos of tables into editable spreadsheets. Upload an image of any table, 
 - Node.js 18+
 - A [Supabase](https://supabase.com) project
 - A [Stripe](https://stripe.com) account
-- An [OpenAI](https://platform.openai.com) API key
+- An [Anthropic](https://console.anthropic.com) API key
 
 ### 1. Clone and install
 
@@ -43,48 +43,17 @@ npm install
 cp .env.example .env
 ```
 
-Fill in your Supabase URL, anon key, Stripe publishable key, and Stripe price ID.
+Fill in your Supabase URL, anon key, Stripe keys, and price IDs.
 
 ### 3. Run the database migration
 
-Apply `supabase/migrations/001_initial_schema.sql` to your Supabase project via the SQL editor or Supabase CLI.
+Apply `supabase/migrations/001_initial_schema.sql` and `002_plan_tiers.sql` to your Supabase project via the SQL editor.
 
-### 4. Deploy edge functions
-
-```bash
-supabase functions deploy convert
-supabase functions deploy create-checkout
-supabase functions deploy stripe-webhook
-```
-
-Set the required secrets:
-
-```bash
-supabase secrets set OPENAI_API_KEY=sk-...
-supabase secrets set STRIPE_SECRET_KEY=sk_test_...
-supabase secrets set STRIPE_WEBHOOK_SECRET=whsec_...
-supabase secrets set STRIPE_PRICE_ID_PRO=price_...
-supabase secrets set SITE_URL=https://your-domain.com
-```
-
-### 5. Start development server
+### 4. Start development server
 
 ```bash
 npm run dev
 ```
-
-### 6. Configure Stripe webhook
-
-Point your Stripe webhook endpoint to:
-```
-https://<your-supabase-project>.supabase.co/functions/v1/stripe-webhook
-```
-
-Events to listen for:
-- `customer.subscription.created`
-- `customer.subscription.updated`
-- `customer.subscription.deleted`
-- `invoice.payment_failed`
 
 ## Project Structure
 
@@ -97,9 +66,12 @@ src/
 ├── pages/          # Route-level page components
 └── types/          # TypeScript type definitions
 
+netlify/
+└── functions/      # Serverless functions (convert, checkout, webhook)
+
 supabase/
 ├── migrations/     # Database schema and RLS policies
-└── functions/      # Edge functions (convert, checkout, webhook)
+└── functions/      # Legacy edge functions (replaced by Netlify functions)
 ```
 
 ## License
