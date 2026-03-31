@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "imgtosheet — Image to Spreadsheet",
+  "version": "1.0.0",
+  "description": "Convert any image of a table into a CSV or Excel spreadsheet. Right-click an image or screenshot a region.",
+  "permissions": [
+    "contextMenus",
+    "activeTab",
+    "scripting",
+    "storage",
+    "tabs"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "Screenshot area to spreadsheet"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

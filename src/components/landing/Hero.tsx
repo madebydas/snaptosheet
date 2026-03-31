@@ -91,7 +91,7 @@ export function Hero() {
                 <Link to="/auth" className="text-accent font-medium underline underline-offset-4">
                   Sign up free
                 </Link>{' '}
-                for 5 conversions/month.
+                for 1 free conversion per day.
               </p>
             )}
           </div>
@@ -107,12 +107,12 @@ export function Hero() {
           {/* Left column */}
           <div>
             <h1 className="font-serif text-5xl leading-[1.05] tracking-tight sm:text-6xl lg:text-[72px]">
-              Your data is trapped in an image.<br />
-              <em className="text-accent">We get it out.</em>
+              Your data is trapped in an image. <em className="text-accent">We get it out.</em>
             </h1>
             <p className="mt-6 max-w-md text-lg text-gray-600 leading-relaxed">
-              Upload a screenshot of any table and get a clean CSV or Excel file
-              in seconds. No retyping. No broken Excel features.
+              Upload a screenshot of any table and get a clean CSV or Excel
+              file in seconds. No chat window. No copy-pasting.
+              Just drag, drop, and download.
             </p>
 
             {error && (
@@ -128,7 +128,7 @@ export function Hero() {
                   Sign up to continue &rarr;
                 </Link>
                 <p className="mt-3 text-xs text-gray-400">
-                  5 free conversions/month with an account
+                  1 free conversion per day with an account
                 </p>
               </div>
             ) : (
@@ -140,7 +140,7 @@ export function Hero() {
                   </p>
                 ) : (
                   <p className="mt-3 text-xs text-gray-400">
-                    5 free conversions &middot; No account required
+                    1 free conversion per day &middot; No account required
                   </p>
                 )}
               </div>
@@ -149,9 +149,9 @@ export function Hero() {
 
           {/* Right column — before/after transformation collage */}
           <div className="hidden lg:block">
-            <div className="relative h-[440px]">
-              {/* Schedule — top left background, tilted */}
-              <div className="absolute top-0 left-0 w-[220px] -rotate-3 bg-[#FFFDE7] border border-[#E8E4D0] p-3 shadow-[2px_3px_12px_rgba(0,0,0,0.06)] opacity-60">
+            <div className="relative h-[460px]">
+              {/* Schedule — top left, tilted */}
+              <div className="absolute top-0 left-0 w-[180px] -rotate-3 bg-[#FFFDE7] border border-[#E8E4D0] p-3 shadow-[2px_3px_12px_rgba(0,0,0,0.06)] opacity-60">
                 <p className="text-[9px] font-sans font-medium text-gray-400 uppercase tracking-widest mb-2">Schedule</p>
                 <div className="space-y-1">
                   <div className="flex justify-between text-[10px]">
@@ -169,27 +169,27 @@ export function Hero() {
                 </div>
               </div>
 
-              {/* Menu — bottom left background, tilted */}
-              <div className="absolute bottom-[20px] left-[10px] w-[190px] rotate-2 bg-white border border-gray-200 p-3 shadow-[2px_3px_12px_rgba(0,0,0,0.06)] opacity-60">
-                <p className="text-[9px] font-sans font-medium text-gray-400 uppercase tracking-widest mb-2">Menu</p>
+              {/* Receipt — top right area, pink tint */}
+              <div className="absolute top-[10px] left-[140px] w-[150px] rotate-1 bg-[#FFF5F5] border border-[#FECDD3] p-3 shadow-[2px_3px_12px_rgba(0,0,0,0.06)] opacity-60">
+                <p className="text-[9px] font-sans font-medium text-gray-400 uppercase tracking-widest mb-2">Receipt</p>
                 <div className="space-y-1">
                   <div className="flex justify-between text-[10px] font-sans">
-                    <span className="text-gray-700">Margherita</span>
-                    <span className="text-gray-400">$14</span>
+                    <span className="text-gray-700">Latte</span>
+                    <span className="text-gray-400">$5.50</span>
                   </div>
                   <div className="flex justify-between text-[10px] font-sans">
-                    <span className="text-gray-700">Grilled Salmon</span>
-                    <span className="text-gray-400">$24</span>
+                    <span className="text-gray-700">Croissant</span>
+                    <span className="text-gray-400">$3.25</span>
                   </div>
-                  <div className="flex justify-between text-[10px] font-sans">
-                    <span className="text-gray-700">Tiramisu</span>
-                    <span className="text-gray-400">$9</span>
+                  <div className="flex justify-between text-[10px] font-sans font-medium border-t border-[#FECDD3] pt-1 mt-1">
+                    <span className="text-gray-700">Total</span>
+                    <span className="text-gray-500">$8.75</span>
                   </div>
                 </div>
               </div>
 
-              {/* BEFORE: Inventory — messy, tilted, blue tint */}
-              <div className="absolute top-[60px] left-[80px] w-[200px] -rotate-2 bg-[#F0F4FF] border border-[#D0D8E8] p-3 shadow-[2px_3px_12px_rgba(0,0,0,0.08)] z-10">
+              {/* BEFORE: Inventory — center, blue tint, tilted */}
+              <div className="absolute top-[110px] left-[30px] w-[200px] -rotate-2 bg-[#F0F4FF] border border-[#D0D8E8] p-3 shadow-[2px_3px_12px_rgba(0,0,0,0.08)] z-10">
                 <p className="text-[9px] font-sans font-medium text-gray-400 uppercase tracking-widest mb-2">Screenshot</p>
                 <div className="space-y-0.5">
                   <div className="grid grid-cols-3 text-[9px] font-sans text-gray-400 border-b border-[#C8D0E0] pb-0.5">
@@ -210,13 +210,15 @@ export function Hero() {
                 </div>
               </div>
 
-              {/* Arrow */}
-              <div className="absolute top-[145px] left-[290px] z-20 flex items-center">
-                <span className="text-2xl text-accent font-light">&rarr;</span>
+              {/* Arrow — positioned cleanly between before and after */}
+              <div className="absolute top-[185px] left-[248px] z-20 flex flex-col items-center">
+                <svg width="40" height="20" viewBox="0 0 40 20" fill="none" className="text-accent">
+                  <path d="M0 10H34M34 10L26 3M34 10L26 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
               </div>
 
-              {/* AFTER: Clean spreadsheet — crisp, no tilt */}
-              <div className="absolute top-[50px] right-0 w-[210px] bg-white border border-gray-200 p-0 shadow-[2px_3px_12px_rgba(0,0,0,0.08)] z-10">
+              {/* AFTER: Clean spreadsheet — right side, no tilt */}
+              <div className="absolute top-[110px] right-0 w-[210px] bg-white border border-gray-200 p-0 shadow-[2px_3px_12px_rgba(0,0,0,0.08)] z-10">
                 <div className="px-3 py-2 border-b border-gray-100 flex items-center gap-1.5">
                   <div className="w-2 h-2 rounded-full bg-accent/60" />
                   <span className="text-[9px] font-sans font-medium text-gray-400 uppercase tracking-widest">Clean data</span>
@@ -239,6 +241,44 @@ export function Hero() {
                       <span className="px-2.5 py-1.5 font-mono text-[10px] text-gray-900 text-right">{row[2]}</span>
                     </div>
                   ))}
+                </div>
+              </div>
+
+              {/* Menu — bottom left, tilted */}
+              <div className="absolute bottom-[40px] left-[0px] w-[170px] rotate-2 bg-white border border-gray-200 p-3 shadow-[2px_3px_12px_rgba(0,0,0,0.06)] opacity-60">
+                <p className="text-[9px] font-sans font-medium text-gray-400 uppercase tracking-widest mb-2">Menu</p>
+                <div className="space-y-1">
+                  <div className="flex justify-between text-[10px] font-sans">
+                    <span className="text-gray-700">Margherita</span>
+                    <span className="text-gray-400">$14</span>
+                  </div>
+                  <div className="flex justify-between text-[10px] font-sans">
+                    <span className="text-gray-700">Grilled Salmon</span>
+                    <span className="text-gray-400">$24</span>
+                  </div>
+                  <div className="flex justify-between text-[10px] font-sans">
+                    <span className="text-gray-700">Tiramisu</span>
+                    <span className="text-gray-400">$9</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Price list — bottom right, purple tint */}
+              <div className="absolute bottom-[20px] left-[150px] w-[160px] -rotate-1 bg-[#F5F3FF] border border-[#DDD6FE] p-3 shadow-[2px_3px_12px_rgba(0,0,0,0.06)] opacity-60">
+                <p className="text-[9px] font-sans font-medium text-gray-400 uppercase tracking-widest mb-2">Price List</p>
+                <div className="space-y-1">
+                  <div className="flex justify-between text-[10px] font-sans">
+                    <span className="text-gray-700">Basic</span>
+                    <span className="text-gray-400">$29/mo</span>
+                  </div>
+                  <div className="flex justify-between text-[10px] font-sans">
+                    <span className="text-gray-700">Pro</span>
+                    <span className="text-gray-400">$79/mo</span>
+                  </div>
+                  <div className="flex justify-between text-[10px] font-sans">
+                    <span className="text-gray-700">Enterprise</span>
+                    <span className="text-gray-400">Custom</span>
+                  </div>
                 </div>
               </div>
             </div>

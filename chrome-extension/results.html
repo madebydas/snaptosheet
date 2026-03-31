@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>imgtosheet — Results</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="results.css">
+</head>
+<body>
+  <nav>
+    <span class="brand">imgtosheet</span>
+    <a href="https://imgtosheet.com" target="_blank" class="nav-link">Open imgtosheet.com</a>
+  </nav>
+
+  <main>
+    <!-- Loading state -->
+    <div id="loading" class="state">
+      <div class="spinner"></div>
+      <p>Extracting table data...</p>
+    </div>
+
+    <!-- Error state -->
+    <div id="error" class="state hidden">
+      <h2>Something went wrong</h2>
+      <p id="error-message"></p>
+      <a href="https://imgtosheet.com" class="cta">Try on imgtosheet.com</a>
+    </div>
+
+    <!-- Results state -->
+    <div id="results" class="hidden">
+      <div class="results-header">
+        <h1>Your spreadsheet</h1>
+        <div class="export-buttons">
+          <button id="btn-copy" class="btn-export">Copy to clipboard</button>
+          <button id="btn-csv" class="btn-export">Download CSV</button>
+          <button id="btn-xlsx" class="btn-export">Download Excel</button>
+        </div>
+      </div>
+      <div id="table-container"></div>
+      <p class="footnote">Powered by <a href="https://imgtosheet.com" target="_blank">imgtosheet.com</a></p>
+    </div>
+  </main>
+
+  <script src="lib/xlsx.mini.min.js"></script>
+  <script src="results.js"></script>
+</body>
+</html>

@@ -8,7 +8,7 @@ const tiers = [
     name: 'Free',
     price: '$0',
     period: '',
-    description: '5 conversions per month. Export in CSV or Excel. No credit card needed.',
+    description: '1 conversion per day. Export in CSV or Excel. No credit card needed.',
     cta: 'Get started',
     ctaLink: '/auth',
     highlighted: false,

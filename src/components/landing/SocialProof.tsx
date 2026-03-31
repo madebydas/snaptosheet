@@ -22,7 +22,7 @@ export function SocialProof() {
           </span>
           <span className="hidden sm:inline mx-6 text-[#D1FAE5]">|</span>
           <span>
-            <span className="font-serif text-base text-accent">5</span> free conversions — no signup needed
+            <span className="font-serif text-base text-accent">1</span> free conversion per day — no signup needed
           </span>
         </div>
 

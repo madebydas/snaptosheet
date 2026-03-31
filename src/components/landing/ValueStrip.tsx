@@ -1,6 +1,6 @@
 const stats = [
   { number: '10 sec', label: 'Average conversion time', context: 'From upload to downloaded file' },
-  { number: '$0', label: 'To get started', context: '5 free conversions, no card required' },
+  { number: '$0', label: 'To get started', context: '1 free conversion per day, no card required' },
   { number: '0', label: 'Broken Excel features', context: 'Works on every browser and device' },
 ]
 

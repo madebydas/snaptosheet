@@ -26,8 +26,8 @@ const faqs = [
     a: 'Not directly — imgtosheet works with images and screenshots. If your PDF has a table, take a screenshot and upload that. Full PDF support is on our roadmap.',
   },
   {
-    q: 'What happens after my 5 free conversions?',
-    a: 'Sign up for a free account to track usage, or upgrade to Starter ($9/mo) for 100 conversions per month with Excel output and conversion history.',
+    q: 'What happens after my free conversion?',
+    a: 'You get 1 free conversion per day. Come back tomorrow for another, or sign up and upgrade to a paid plan for 50 conversions per month.',
   },
 ]
 

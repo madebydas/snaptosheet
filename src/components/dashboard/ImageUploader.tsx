@@ -12,8 +12,8 @@ export function ImageUploader({ onUpload, disabled }: ImageUploaderProps) {
 
   const handleFile = useCallback((file: File) => {
     if (!file.type.startsWith('image/')) return
-    if (file.size > 10 * 1024 * 1024) {
-      alert('File must be under 10MB')
+    if (file.size > 4 * 1024 * 1024) {
+      alert('File must be under 4MB')
       return
     }
     setSelectedFile(file)
