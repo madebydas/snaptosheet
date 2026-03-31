@@ -32,8 +32,8 @@ Turn photos of tables into editable spreadsheets. Upload an image of any table, 
 ### 1. Clone and install
 
 ```bash
-git clone https://github.com/madebydas/snaptosheet.git
-cd snaptosheet
+git clone https://github.com/madebydas/imgtosheet.git
+cd imgtosheet
 npm install
 ```
 
