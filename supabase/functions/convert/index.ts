@@ -22,7 +22,7 @@ serve(async (req) => {
 
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!
     const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-    const openaiKey = Deno.env.get('OPENAI_API_KEY')!
+    const anthropicKey = Deno.env.get('ANTHROPIC_API_KEY')!
 
     // Verify the user's JWT
     const userClient = createClient(supabaseUrl, Deno.env.get('SUPABASE_ANON_KEY')!, {
@@ -99,19 +99,33 @@ serve(async (req) => {
       .update({ image_url: urlData.publicUrl })
       .eq('id', conversion.id)
 
-    // Call GPT-4o vision
-    const openaiResponse = await fetch('https://api.openai.com/v1/chat/completions', {
+    // Call Claude API for vision extraction
+    const mediaType = ext === 'png' ? 'image/png' : ext === 'webp' ? 'image/webp' : 'image/jpeg'
+    const claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${openaiKey}`,
+        'x-api-key': anthropicKey,
+        'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
-        model: 'gpt-4o',
+        model: 'claude-sonnet-4-6-20250514',
+        max_tokens: 4096,
         messages: [
           {
-            role: 'system',
-            content: `You are a precise data extraction tool. Given an image of a table, menu, receipt, schedule, or any structured data, extract ALL visible tabular data.
+            role: 'user',
+            content: [
+              {
+                type: 'image',
+                source: {
+                  type: 'base64',
+                  media_type: mediaType,
+                  data: imageBase64,
+                },
+              },
+              {
+                type: 'text',
+                text: `Extract ALL visible tabular data from this image.
 
 Return ONLY valid JSON in this exact format:
 {
@@ -128,25 +142,15 @@ Rules:
 - If multiple tables exist, extract the largest/most prominent one.
 - Empty cells should be represented as empty strings "".
 - Do not include any explanation, markdown, or text outside the JSON.`,
-          },
-          {
-            role: 'user',
-            content: [
-              {
-                type: 'image_url',
-                image_url: { url: `data:image/${ext};base64,${imageBase64}`, detail: 'high' },
               },
-              { type: 'text', text: 'Extract the table data from this image.' },
             ],
           },
         ],
-        max_tokens: 4096,
-        temperature: 0,
       }),
     })
 
-    const openaiData = await openaiResponse.json()
-    const content = openaiData.choices?.[0]?.message?.content ?? ''
+    const claudeData = await claudeResponse.json()
+    const content = claudeData.content?.[0]?.text ?? ''
 
     // Parse the JSON response
     let extractedData
