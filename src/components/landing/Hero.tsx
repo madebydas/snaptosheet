@@ -110,8 +110,9 @@ export function Hero() {
               Your data is trapped in an image. <em className="text-accent">We get it out.</em>
             </h1>
             <p className="mt-6 max-w-md text-lg text-gray-600 leading-relaxed">
-              Upload a screenshot of any table and get a clean CSV or Excel file
-              in seconds. No retyping. No broken Excel features.
+              Upload a screenshot of any table and get a clean CSV or Excel
+              file in seconds. No chat window. No copy-pasting.
+              Just drag, drop, and download.
             </p>
 
             {error && (

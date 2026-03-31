@@ -7,9 +7,12 @@ export function Callout() {
             Microsoft built this.<br />We made it work.
           </h2>
           <p className="mt-4 text-base text-gray-600 leading-relaxed max-w-lg">
-            Excel's "Data from Picture" is greyed out on most versions, fails on
-            currency symbols, and requires Microsoft 365. imgtosheet works on any
-            browser, any device, in 10 seconds.
+            Excel's Data from Picture is greyed out on most versions,
+            fails on currency symbols, and requires Microsoft 365.
+            ChatGPT can extract a table — after you open a chat,
+            describe what you want, and copy-paste the output into Excel.
+            imgtosheet is the one that just works. Drag an image in.
+            Get a spreadsheet out. On any browser. In 10 seconds.
           </p>
         </div>
       </div>
