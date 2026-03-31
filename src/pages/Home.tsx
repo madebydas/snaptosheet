@@ -1,8 +1,10 @@
 import { Hero } from '../components/landing/Hero'
 import { SocialProof } from '../components/landing/SocialProof'
+import { EditorialHeadline } from '../components/landing/EditorialHeadline'
 import { Marquee } from '../components/landing/Marquee'
 import { Features } from '../components/landing/Features'
 import { UseCaseGrid } from '../components/landing/UseCaseGrid'
+import { AlternatingFeatures } from '../components/landing/AlternatingFeatures'
 import { HowItWorks, Callout } from '../components/landing/HowItWorks'
 import { BeforeAfter } from '../components/landing/BeforeAfter'
 import { ValueStrip } from '../components/landing/ValueStrip'
@@ -16,9 +18,11 @@ export default function Home() {
       <StickyHeader />
       <Hero />
       <SocialProof />
+      <EditorialHeadline />
       <Marquee />
       <Features />
       <UseCaseGrid />
+      <AlternatingFeatures />
       <HowItWorks />
       <BeforeAfter />
       <Callout />
