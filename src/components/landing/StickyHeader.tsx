@@ -28,7 +28,7 @@ export function StickyHeader() {
         <span className="font-sans text-sm font-medium text-black">imgtosheet</span>
         <div className="flex items-center gap-4">
           <span className="text-sm text-gray-500">
-            5 free conversions &middot; No signup required
+            1 free conversion per day &middot; No signup required
           </span>
           <button
             onClick={scrollToUpload}

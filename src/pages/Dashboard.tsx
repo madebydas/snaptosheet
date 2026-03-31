@@ -15,7 +15,7 @@ const TRIAL_KEY = 'imgtosheet_trial_used'
 export default function Dashboard() {
   const { user } = useAuth()
   const { conversions, refetch } = useConversions()
-  const { canConvert, used, limit, plan } = useUsage()
+  const { canConvert, used, limit, plan, isFree } = useUsage()
   const [tableData, setTableData] = useState<TableData | null>(null)
   const [converting, setConverting] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -83,7 +83,7 @@ export default function Dashboard() {
         <h1 className="font-serif text-4xl">Dashboard</h1>
         {user && (
           <span className="text-sm text-gray-500">
-            {`${used}/${limit} conversions`} this month
+            {isFree ? `${used}/${limit} conversions today` : `${used}/${limit} conversions this month`}
           </span>
         )}
       </div>
@@ -97,7 +97,7 @@ export default function Dashboard() {
             <div className="border border-gray-200 px-8 py-12 text-center">
               <h2 className="font-serif text-2xl">Create an account to continue</h2>
               <p className="mt-3 text-sm text-gray-500">
-                Sign up to get 5 free conversions per month.
+                Sign up to get 1 free conversion per day.
               </p>
               <div className="mt-6 flex items-center justify-center gap-4">
                 <Link
@@ -114,10 +114,11 @@ export default function Dashboard() {
           ) : limitReached && !tableData ? (
             /* Logged-in user hit their plan limit */
             <div className="border border-gray-200 px-8 py-12 text-center">
-              <h2 className="font-serif text-2xl">You've hit your monthly limit</h2>
+              <h2 className="font-serif text-2xl">{isFree ? "You've used your free conversion for today" : "You've hit your monthly limit"}</h2>
               <p className="mt-3 text-sm text-gray-500">
-                You've used all {limit} conversions this month on the {plan} plan.
-                Upgrade to get more.
+                {isFree
+                  ? 'Come back tomorrow for another free conversion, or upgrade for 50/month.'
+                  : `You've used all ${limit} conversions this month on the ${plan} plan. Upgrade to get more.`}
               </p>
               <div className="mt-6 flex items-center justify-center gap-4">
                 <Link

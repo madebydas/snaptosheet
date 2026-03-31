@@ -1,8 +1,7 @@
 import type { Context } from "@netlify/functions"
 import { createClient } from "@supabase/supabase-js"
 
-const PLAN_LIMITS: Record<string, number> = {
-  free: 5,
+const MONTHLY_LIMITS: Record<string, number> = {
   monthly: 50,
   yearly: 50,
   lifetime: 50,
@@ -26,6 +25,14 @@ async function getUserFromToken(token: string) {
   return user
 }
 
+function getClientIp(req: Request): string {
+  return (
+    req.headers.get("x-nf-client-connection-ip") ||
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    "unknown"
+  )
+}
+
 export default async (req: Request, _context: Context) => {
   const corsHeaders = {
     "Access-Control-Allow-Origin": "*",
@@ -47,32 +54,65 @@ export default async (req: Request, _context: Context) => {
       )
     }
 
-    // Optional auth — check if user is logged in
+    // Optional auth
     const authHeader = req.headers.get("authorization")
     const token = authHeader?.replace("Bearer ", "")
     const user = token ? await getUserFromToken(token) : null
     const admin = getSupabaseAdmin()
 
-    // Server-side usage limit check for authenticated users
-    if (user && admin) {
-      const { data: profile } = await admin
-        .from("profiles")
-        .select("plan")
-        .eq("id", user.id)
-        .single()
+    // Rate limiting
+    if (admin) {
+      if (user) {
+        // Logged-in user
+        const { data: profile } = await admin
+          .from("profiles")
+          .select("plan")
+          .eq("id", user.id)
+          .single()
 
-      const plan = profile?.plan ?? "free"
-      const limit = PLAN_LIMITS[plan] ?? 5
+        const plan = profile?.plan ?? "free"
 
-      const { data: usageCount } = await admin.rpc("conversions_this_month", {
-        uid: user.id,
-      })
+        if (plan === "free") {
+          // Free users: 1 per day
+          const { data: todayCount } = await admin.rpc("conversions_today", { uid: user.id })
+          if ((todayCount ?? 0) >= 1) {
+            return new Response(
+              JSON.stringify({ error: "Daily limit reached. Come back tomorrow or upgrade for more conversions." }),
+              { status: 429, headers: jsonHeaders },
+            )
+          }
+        } else {
+          // Paid users: monthly limit
+          const limit = MONTHLY_LIMITS[plan] ?? 50
+          const { data: monthCount } = await admin.rpc("conversions_this_month", { uid: user.id })
+          if ((monthCount ?? 0) >= limit) {
+            return new Response(
+              JSON.stringify({ error: "Monthly limit reached. Upgrade your plan for more conversions." }),
+              { status: 429, headers: jsonHeaders },
+            )
+          }
+        }
+      } else {
+        // Anonymous user: IP-based, 1 per day
+        const ip = getClientIp(req)
+        if (ip !== "unknown") {
+          const since = new Date()
+          since.setHours(since.getHours() - 24)
 
-      if ((usageCount ?? 0) >= limit) {
-        return new Response(
-          JSON.stringify({ error: "Monthly limit reached. Upgrade your plan for more conversions." }),
-          { status: 429, headers: jsonHeaders },
-        )
+          const { data: recentConversions } = await admin
+            .from("anonymous_conversions")
+            .select("id")
+            .eq("ip_address", ip)
+            .gte("created_at", since.toISOString())
+            .limit(1)
+
+          if (recentConversions && recentConversions.length > 0) {
+            return new Response(
+              JSON.stringify({ error: "You've used your free conversion for today. Sign up for more, or come back tomorrow." }),
+              { status: 429, headers: jsonHeaders },
+            )
+          }
+        }
       }
     }
 
@@ -154,14 +194,22 @@ Rules:
       )
     }
 
-    // Save conversion to DB for authenticated users
-    if (user && admin) {
-      await admin.from("conversions").insert({
-        user_id: user.id,
-        image_url: "",
-        extracted_data: extractedData,
-        status: "completed",
-      })
+    // Save conversion to DB
+    if (admin) {
+      if (user) {
+        await admin.from("conversions").insert({
+          user_id: user.id,
+          image_url: "",
+          extracted_data: extractedData,
+          status: "completed",
+        })
+      } else {
+        // Track anonymous conversion by IP
+        const ip = getClientIp(req)
+        if (ip !== "unknown") {
+          await admin.from("anonymous_conversions").insert({ ip_address: ip })
+        }
+      }
     }
 
     return new Response(

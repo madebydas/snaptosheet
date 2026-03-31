@@ -91,7 +91,7 @@ export function Hero() {
                 <Link to="/auth" className="text-accent font-medium underline underline-offset-4">
                   Sign up free
                 </Link>{' '}
-                for 5 conversions/month.
+                for 1 free conversion per day.
               </p>
             )}
           </div>
@@ -127,7 +127,7 @@ export function Hero() {
                   Sign up to continue &rarr;
                 </Link>
                 <p className="mt-3 text-xs text-gray-400">
-                  5 free conversions/month with an account
+                  1 free conversion per day with an account
                 </p>
               </div>
             ) : (
@@ -139,7 +139,7 @@ export function Hero() {
                   </p>
                 ) : (
                   <p className="mt-3 text-xs text-gray-400">
-                    5 free conversions &middot; No account required
+                    1 free conversion per day &middot; No account required
                   </p>
                 )}
               </div>
