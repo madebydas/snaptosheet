@@ -1,6 +1,8 @@
 export const PLANS = {
   free: { name: 'Free', price: 0, conversionsPerMonth: 5 },
-  pro: { name: 'Pro', price: 9, conversionsPerMonth: Infinity },
+  monthly: { name: 'Monthly', price: 9, conversionsPerMonth: 50 },
+  yearly: { name: 'Yearly', price: 59, conversionsPerMonth: 50 },
+  lifetime: { name: 'Lifetime', price: 199, conversionsPerMonth: 50 },
 } as const
 
-export const STRIPE_PRICE_ID = import.meta.env.VITE_STRIPE_PRICE_ID_PRO as string
+export type PlanType = keyof typeof PLANS

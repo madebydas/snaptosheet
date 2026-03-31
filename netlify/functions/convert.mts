@@ -1,4 +1,30 @@
 import type { Context } from "@netlify/functions"
+import { createClient } from "@supabase/supabase-js"
+
+const PLAN_LIMITS: Record<string, number> = {
+  free: 5,
+  monthly: 50,
+  yearly: 50,
+  lifetime: 50,
+}
+
+function getSupabaseAdmin() {
+  const url = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+  if (!url || !key) return null
+  return createClient(url, key)
+}
+
+async function getUserFromToken(token: string) {
+  const url = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL
+  const anonKey = process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY
+  if (!url || !anonKey) return null
+  const client = createClient(url, anonKey, {
+    global: { headers: { Authorization: `Bearer ${token}` } },
+  })
+  const { data: { user } } = await client.auth.getUser()
+  return user
+}
 
 export default async (req: Request, _context: Context) => {
   const corsHeaders = {
@@ -6,6 +32,7 @@ export default async (req: Request, _context: Context) => {
     "Access-Control-Allow-Headers": "content-type, authorization",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
   }
+  const jsonHeaders = { ...corsHeaders, "Content-Type": "application/json" }
 
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders })
@@ -16,8 +43,37 @@ export default async (req: Request, _context: Context) => {
     if (!anthropicKey) {
       return new Response(
         JSON.stringify({ error: "ANTHROPIC_API_KEY not configured" }),
-        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        { status: 500, headers: jsonHeaders },
       )
+    }
+
+    // Optional auth — check if user is logged in
+    const authHeader = req.headers.get("authorization")
+    const token = authHeader?.replace("Bearer ", "")
+    const user = token ? await getUserFromToken(token) : null
+    const admin = getSupabaseAdmin()
+
+    // Server-side usage limit check for authenticated users
+    if (user && admin) {
+      const { data: profile } = await admin
+        .from("profiles")
+        .select("plan")
+        .eq("id", user.id)
+        .single()
+
+      const plan = profile?.plan ?? "free"
+      const limit = PLAN_LIMITS[plan] ?? 5
+
+      const { data: usageCount } = await admin.rpc("conversions_this_month", {
+        uid: user.id,
+      })
+
+      if ((usageCount ?? 0) >= limit) {
+        return new Response(
+          JSON.stringify({ error: "Monthly limit reached. Upgrade your plan for more conversions." }),
+          { status: 429, headers: jsonHeaders },
+        )
+      }
     }
 
     const { imageBase64, fileName } = await req.json()
@@ -25,7 +81,7 @@ export default async (req: Request, _context: Context) => {
     if (!imageBase64) {
       return new Response(
         JSON.stringify({ error: "No image provided" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        { status: 400, headers: jsonHeaders },
       )
     }
 
@@ -48,11 +104,7 @@ export default async (req: Request, _context: Context) => {
             content: [
               {
                 type: "image",
-                source: {
-                  type: "base64",
-                  media_type: mediaType,
-                  data: imageBase64,
-                },
+                source: { type: "base64", media_type: mediaType, data: imageBase64 },
               },
               {
                 type: "text",
@@ -84,7 +136,7 @@ Rules:
       const errText = await claudeResponse.text()
       return new Response(
         JSON.stringify({ error: `Claude API error: ${errText}` }),
-        { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        { status: 502, headers: jsonHeaders },
       )
     }
 
@@ -98,13 +150,23 @@ Rules:
     } catch {
       return new Response(
         JSON.stringify({ error: "Failed to parse table data from image" }),
-        { status: 422, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        { status: 422, headers: jsonHeaders },
       )
+    }
+
+    // Save conversion to DB for authenticated users
+    if (user && admin) {
+      await admin.from("conversions").insert({
+        user_id: user.id,
+        image_url: "",
+        extracted_data: extractedData,
+        status: "completed",
+      })
     }
 
     return new Response(
       JSON.stringify({ data: extractedData }),
-      { headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      { headers: jsonHeaders },
     )
   } catch (error) {
     return new Response(
@@ -113,4 +175,3 @@ Rules:
     )
   }
 }
-

@@ -7,6 +7,7 @@ import { ConversionHistory } from '../components/dashboard/ConversionHistory'
 import { useConversions } from '../hooks/useConversions'
 import { useUsage } from '../hooks/useUsage'
 import { useAuth } from '../hooks/useAuth'
+import { supabase } from '../lib/supabase'
 import type { TableData } from '../types'
 
 const TRIAL_KEY = 'snaptosheet_trial_used'
@@ -23,6 +24,7 @@ export default function Dashboard() {
   })
 
   const canUpload = user ? canConvert : !trialUsed
+  const limitReached = user && !canConvert
 
   async function handleUpload(file: File) {
     setError(null)
@@ -37,9 +39,18 @@ export default function Dashboard() {
       }
       const imageBase64 = btoa(binary)
 
+      // Include auth token if logged in
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' }
+      if (user) {
+        const { data: { session } } = await supabase.auth.getSession()
+        if (session?.access_token) {
+          headers['Authorization'] = `Bearer ${session.access_token}`
+        }
+      }
+
       const res = await fetch('/.netlify/functions/convert', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify({ imageBase64, fileName: file.name }),
       })
 
@@ -72,7 +83,7 @@ export default function Dashboard() {
         <h1 className="font-serif text-4xl">Dashboard</h1>
         {user && (
           <span className="text-sm text-gray-500">
-            {plan === 'pro' ? `${used} conversions` : `${used}/${limit} conversions`} this month
+            {`${used}/${limit} conversions`} this month
           </span>
         )}
       </div>
@@ -81,6 +92,7 @@ export default function Dashboard() {
 
       <div className="grid gap-12 lg:grid-cols-[1fr_300px]">
         <div className="space-y-8">
+          {/* Anonymous trial exhausted */}
           {!user && trialUsed && !tableData ? (
             <div className="border border-gray-200 px-8 py-12 text-center">
               <h2 className="font-serif text-2xl">Create an account to continue</h2>
@@ -96,6 +108,23 @@ export default function Dashboard() {
                 </Link>
                 <Link to="/pricing" className="text-sm text-gray-500 underline underline-offset-4 hover:text-black">
                   View pricing
+                </Link>
+              </div>
+            </div>
+          ) : limitReached && !tableData ? (
+            /* Logged-in user hit their plan limit */
+            <div className="border border-gray-200 px-8 py-12 text-center">
+              <h2 className="font-serif text-2xl">You've hit your monthly limit</h2>
+              <p className="mt-3 text-sm text-gray-500">
+                You've used all {limit} conversions this month on the {plan} plan.
+                Upgrade to get more.
+              </p>
+              <div className="mt-6 flex items-center justify-center gap-4">
+                <Link
+                  to="/pricing"
+                  className="bg-accent text-white px-8 py-2.5 text-sm font-medium hover:bg-accent-hover transition-colors"
+                >
+                  Upgrade plan
                 </Link>
               </div>
             </div>

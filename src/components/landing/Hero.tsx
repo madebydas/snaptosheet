@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
+import { supabase } from '../../lib/supabase'
 import type { TableData } from '../../types'
 import { ImageUploader } from '../dashboard/ImageUploader'
 import { TablePreview } from '../dashboard/TablePreview'
@@ -32,9 +33,17 @@ export function Hero() {
       }
       const imageBase64 = btoa(binary)
 
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' }
+      if (user) {
+        const { data: { session } } = await supabase.auth.getSession()
+        if (session?.access_token) {
+          headers['Authorization'] = `Bearer ${session.access_token}`
+        }
+      }
+
       const res = await fetch('/.netlify/functions/convert', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify({ imageBase64, fileName: file.name }),
       })
 

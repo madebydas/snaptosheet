@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from './useAuth'
-import { PLANS } from '../lib/constants'
+import { PLANS, type PlanType } from '../lib/constants'
 
 export function useUsage() {
   const { user, profile } = useAuth()
@@ -21,9 +21,9 @@ export function useUsage() {
     fetchUsage()
   }, [user])
 
-  const plan = profile?.plan ?? 'free'
-  const limit = PLANS[plan].conversionsPerMonth
-  const canConvert = plan === 'pro' || used < limit
+  const plan: PlanType = (profile?.plan as PlanType) ?? 'free'
+  const limit = PLANS[plan]?.conversionsPerMonth ?? 5
+  const canConvert = used < limit
 
   return { used, limit, canConvert, loading, plan }
 }

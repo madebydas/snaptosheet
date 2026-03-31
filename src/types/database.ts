@@ -10,7 +10,7 @@ export interface Database {
           full_name: string | null
           avatar_url: string | null
           stripe_customer_id: string | null
-          plan: 'free' | 'pro'
+          plan: 'free' | 'monthly' | 'yearly' | 'lifetime'
           created_at: string
           updated_at: string
         }
